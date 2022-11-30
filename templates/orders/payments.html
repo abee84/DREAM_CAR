@@ -1,0 +1,189 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+{% load static %}
+<!-- Sub banner start -->
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>{{single_car.car_title}}</h1>
+            <ul class="breadcrumbs">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li class="active">{{single_car.car_title}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Sub Banner end -->
+  
+<div class="container mt-50 mb-50">
+	{% include 'includes/messages.html' %}
+	<div class="main-title" style="text-align:left !important;">
+            <h1>Welcome <span>Payments</span></h1>
+            <p>Here are the payment details for car booking</p>
+        </div>
+	<h4>Review Your Order and Make Payment</h4>
+	<aside class="col-lg-4">
+
+        <div class="card">
+            <h5 class="card-header">Billing Address</h5>
+            <div class="card-body">
+              <p class="card-text mb-0">{{order.full_name}}</p>
+              <p class="card-text mb-0">{{order.full_address}}</p>
+              <p class="card-text mb-0">{{order.city}}, {{order.state}}</p>
+              <p class="card-text mb-0">{{order.country}}</p>
+              <p class="card-text mb-0">{{order.email}}</p>
+              <p class="card-text mb-0">{{order.phone}}</p>
+              {% if order.order_note %}
+                <b>Order Note: </b>{{order.order_note}}
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="card">
+            <h5 class="card-header">Payment Method</h5>
+            <div class="card-body">
+              <p class="card-text">PayPal</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <h5 class="card-header">Review Cars</h5>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        
+                        <th scope="col">Product</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for cart_item in cart_items %}
+                      <tr>
+                        <td><a href="">{{cart_item.car.car_title}}</a></td>
+                        <td>{{cart_item.quantity}}</td>
+                        <td>₹{{cart_item.car.price}}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+
+		<div class="card">
+		<div class="card-body">
+			<dl class="dlist-align">
+			  <dt>Total price:</dt>
+			  <dd class="text-right">₹{{total}}</dd>
+			</dl>
+			<dl class="dlist-align">
+			  <dt>Tax:</dt>
+			  <dd class="text-right"> ₹{{tax}}</dd>
+			</dl>
+			<dl class="dlist-align">
+			  <dt>Grand Total:</dt>
+			  <dd class="text-right text-dark b"><strong>₹{{grand_total}}</strong></dd>
+			</dl>
+			<hr>
+			<p class="text-center mb-3">
+				<img src="{% static 'images/misc/payments.png' %}" height="26">
+			</p>
+            <div id="paypal-button-container">
+                <!--PayPal Button Will Load-->
+            </div>
+			{% comment %} <a href="{% url 'checkout' %}" class="btn btn-primary btn-block"> Make Payment </a> {% endcomment %}
+			{% comment %} <a href="{% url 'cars' %}" class="btn btn-light btn-block">Continue Shopping</a> {% endcomment %}
+		</div> <!-- card-body.// -->
+		</div> <!-- card.// -->
+
+	</aside> <!-- col.// -->
+</div>
+
+    
+
+<script>
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+  var amount = "{{ grand_total }}"
+  var url = "{% url 'payments' %}"
+  var csrftoken = getCookie('csrftoken');
+  var orderID = "{{order.order_number}}"
+  var payment_method = 'PayPal'
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+        style: {
+            color:  'blue',
+            shape:  'pill',
+            label:  'pay',
+            height: 40
+        },
+
+        // Set up the transaction
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: amount,
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(orderData) {
+              // Successful capture! For demo purposes:
+            
+              console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+              sendData();
+              console.log(orderData);
+
+              var transaction = orderData.purchase_units[0].payments.captures[0];
+              alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+
+              function sendData(){
+                fetch(url, {
+                  method : "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrftoken,
+                  },
+                  body: JSON.stringify({
+                    orderID: orderID,
+                    transID: orderData.id,
+                    payment_method : payment_method,
+                    status: orderData.status,
+                  }),
+                })
+                //.then((response) => response.json())
+                //.then((data) => console.log(data));
+              } 
+              // Replace the above to show a success message within this page, e.g.
+              // const element = document.getElementById('paypal-button-container');
+              // element.innerHTML = '';
+              // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+              // Or go to another URL:  actions.redirect('thank_you.html');
+          });
+      }
+        
+
+
+    }).render('#paypal-button-container');
+</script>
+{% endblock content %}

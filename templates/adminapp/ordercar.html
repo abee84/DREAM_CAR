@@ -1,0 +1,133 @@
+{% extends 'adminapp/base.html' %}
+
+{% block content %}
+
+{% load static %}
+<div class="container-xxl position-relative bg-white d-flex p-0">
+  <div class="container-fluid">
+    <div class="bg-light text-center pt-4 px-4">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Order Table</h6>
+        <a href="">Show All</a>
+      </div>
+      <div class="content">
+        <div class="table-responsive">
+            <table class="display nowrap table text-start align-middle table-bordered table-hover" id="order_table" style="width:100%">
+            <thead>
+              <tr class="text-dark">
+                {% comment %} <th scope="col">
+               <input class="form-check-input" type="checkbox" />  
+                </th> {% endcomment %}
+                <th scope="col">Order</th>
+                <th scope="col">Payment</th>
+                <th scope="col">User</th>
+                <th scope="col">Car</th>
+                <th scope="col">Color</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Car Price</th>
+                <th scope="col">Ordered</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order_car in ordercars %}
+              <tr>
+                {% comment %} <td><input class="form-check-input" type="checkbox" /></td> {% endcomment %}
+                <td>{{order_car.order.email}}</td>
+                <td>{{order_car.order.payment}}</td>
+                <td>{{order_car.order.user}}</td>
+                <td>{{order_car.car.car_title}}</td>
+                <td>{{order_car.car.color}}</td>
+                <td>{{order_car.quantity}}</td>
+                <td>{{order_car.car_price}}</td>
+                <td>{{order_car.ordered}}</td>
+                <td>
+                  <form action="{% url 'change_status' order_car.id %}" method="POST">
+                    {% csrf_token %} {% comment %}
+                    <td class="align-middle text-center text-sm">
+                      {% endcomment %}
+                      <select name="status" class="form-control justify-content-center">
+                        <option selected>{{order_car.status}}</option>
+                        <option value="Accepted">Accepted</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                      </select>
+                      {% comment %}
+                    </td>
+                    {% endcomment %}
+
+                    <td class="align-middle text-center text-sm">
+                      <button class="btn btn-danger" type="submit">
+                        Update
+                      </button>
+                    </td>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ {% comment %} <script>
+  $("#order_table").DataTable({
+    //paging congfiguration
+    paging: true, // pagination
+    pageLength: 10, //page itmes
+    lengthChange: true,
+    autoWidth: true,
+    searching: true,
+    bInfo: true,
+    bSort: true,
+
+    //buttons
+    dom: "lBfrtip",
+    buttons: [
+      {
+        extend: "copy",
+        text: "<i class='fas fa-clone'></i>",
+        className: "btn btn-secondary",
+        titleAttr: "Copy",
+        exportOptions: {
+          coloumns: [0, 1, 2, 3, 4, 5],
+        },
+      },
+      {
+        //ExCEl
+        extend: "excel",
+        text: "<i class='fas fa-file-excel'></i>",
+        className: "btn btn-secondary",
+        titleAttr: "Excel",
+        exportOptions: {
+          coloumns: [0, 1, 2, 3, 4, 5],
+        },
+      },
+      {
+        //PRINT
+        extend: "print",
+        text: "<i class='fas fa-print'></i>",
+        className: "btn btn-secondary",
+        titleAttr: "Print",
+        exportOptions: {
+          coloumns: [0, 1, 2, 3, 4, 5],
+        },
+      },
+    ],
+  });
+</script> {% endcomment %}
+
+ <script>
+  $(document).ready(function () {
+    $("#order_table").DataTable({
+      dom: "Bfrtip",
+      buttons: [ "excel", "pdf", "print"],
+    });
+  });
+</script>
+
+{% endblock content %} 

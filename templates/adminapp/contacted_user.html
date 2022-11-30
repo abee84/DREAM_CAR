@@ -1,0 +1,62 @@
+{% extends 'adminapp/base.html' %}
+
+{% block content %}
+{% load static %}
+<div class="container-xxl position-relative bg-white d-flex p-0">
+<div class="container-fluid">
+    <div class="bg-light text-center pt-4 px-4 ">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">User Contacted</h6>
+            <a href="">Show All</a>
+        </div>
+        <div class="content">
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover">
+                <thead>
+                    
+                    <tr class="text-dark">
+                        {% comment %} <th scope="col"><input class="form-check-input" type="checkbox"></th> {% endcomment %}
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Car id</th>
+                        <th scope="col">Car Title</th>
+                        <th scope="col">Customer Need</th>
+                        <th scope="col">City</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Message</th>
+                        <th scope="col">User id</th>
+                        <th scope="col">Created Date</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contacted_user in user %}
+                    <tr>
+                        {% comment %} <td><input class="form-check-input" type="checkbox"></td> {% endcomment %}
+                        <td>{{contacted_user.first_name}}</td>
+                        <td>{{contacted_user.last_name}}</td>
+                        <td>{{contacted_user.car_id}}</td>
+                        <td>{{contacted_user.car_title}}</td>
+                        <td>{{contacted_user.customer_need}}</td>
+                        <td>{{contacted_user.city}}</td>
+                        <td>{{contacted_user.state}}</td>
+                        <td>{{contacted_user.email}}</td>
+                        <td>{{contacted_user.phone}}</td>
+                        <td>{{contacted_user.message}}</td>
+                        <td>{{contacted_user.user_id}}</td>
+                        <td>{{contacted_user.date_created}}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+
+{% endblock content %}
+
+
