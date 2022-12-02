@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool, default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 LOGIN_REDIRECT_URL = 'dashboard'
 
@@ -51,9 +51,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'adminapp',
-    'carts',
-    'orders',
+    'adminapp.apps.AdminappConfig',
+    'carts.apps.CartsConfig',
+    'orders.apps.OrdersConfig',
+    
 
     #providers
 
@@ -103,13 +104,9 @@ WSGI_APPLICATION = 'dreamcar.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dreamcar_db',
-        'USER' : 'postgres',
-        'PASSWORD':'arun95671',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR +'/db.sqlite3',
+    } 
 }
 
 

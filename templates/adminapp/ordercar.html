@@ -27,11 +27,11 @@
                 <th scope="col">Car Price</th>
                 <th scope="col">Ordered</th>
                 <th scope="col">Status</th>
-                <th scope="col">Action</th>
+                {% comment %} <th scope="col">Action</th> {% endcomment %}
               </tr>
             </thead>
             <tbody>
-              {% for order_car in ordercars %}
+              {% for order_car in ordercar %}
               <tr>
                 {% comment %} <td><input class="form-check-input" type="checkbox" /></td> {% endcomment %}
                 <td>{{order_car.order.email}}</td>
@@ -53,15 +53,15 @@
                         <option value="Completed">Completed</option>
                         <option value="Cancelled">Cancelled</option>
                       </select>
-                      {% comment %}
+                     
                     </td>
-                    {% endcomment %}
+                   
 
                     <td class="align-middle text-center text-sm">
                       <button class="btn btn-danger" type="submit">
                         Update
                       </button>
-                    </td>
+                    </td> 
                   </form>
                 </td>
               </tr>

@@ -90,9 +90,11 @@ def user_unblock(request, id):
 def order_car(request):
     order_car=OrderCar.objects.all()
     context = {
-        'ordercars': order_car,
+        'ordercar': order_car,
     }
     return render(request, 'adminapp/ordercar.html', context)
+
+
 
 def change_status(request,id):
     if request.method == 'POST':

@@ -27,7 +27,7 @@
                         <th scope="col">Phone</th>
                         <th scope="col">Message</th>
                         <th scope="col">User id</th>
-                        <th scope="col">Created Date</th>
+                        {% comment %} <th scope="col">Created Date</th> {% endcomment %}
 
                     </tr>
                 </thead>
@@ -46,7 +46,7 @@
                         <td>{{contacted_user.phone}}</td>
                         <td>{{contacted_user.message}}</td>
                         <td>{{contacted_user.user_id}}</td>
-                        <td>{{contacted_user.date_created}}</td>
+                        {% comment %} <td>{{contacted_user.date_created}}</td> {% endcomment %}
                     </tr>
                 </tbody>
                 {% endfor %}
