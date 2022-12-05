@@ -1,5 +1,5 @@
- {% comment %} {% extends 'adminapp/base.html' %} {% endcomment %}
-<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
+{% comment %} {% extends 'adminapp/base.html' %}  {% endcomment %}
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -13,7 +13,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript"
     src="https://cdn.datatables.net/v/bs5/jq-3.6.0/jszip-2.5.0/dt-1.12.1/b-2.2.3/b-html5-2.2.3/b-print-2.2.3/datatables.min.js">
-</script>
+</script> 
 
 {% block content %}
 
@@ -91,17 +91,10 @@
   
 
 {% endblock content %}  
- {% comment %} <script>
-  $(document).ready(function () {
-    $("#order_table").DataTable({
-      dom: "Bfrtip",
-      buttons: [ "excel", "pdf", "print"],
-    });
-  });
-</script>  {% endcomment %}
+
 
  
-<script>
+ <script>
   $(document).ready(function () {
       $('#sales').DataTable({
           paging: true, // pagination
