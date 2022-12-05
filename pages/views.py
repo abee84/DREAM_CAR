@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from pages.models import Team
 from cars .models import Car
+from contacts.views import *
 # Create your views here.
 
 def home(request):
@@ -38,4 +39,5 @@ def services(request):
 
 
 def contact(request):
+
     return render(request, 'pages/contact.html')

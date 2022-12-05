@@ -149,3 +149,30 @@ def place_order(request, total=0, quantity=0,):
     else:
         print(form.errors)
         return redirect('checkout')
+
+def order_complete(request):
+    order_number= request.GET.get('order_number')
+    trans_id = request.GET.get('payment_id')
+
+    try:
+        order= Order.objects.get(order_number=order_number)
+        order_product= OrderCar.objects.filter(order_id=order.id)
+        
+        subtotal = 0
+        for i in order_product:
+            subtotal += i.product_price 
+
+        tax_added=order.tax+subtotal
+
+
+        context={'order_number':order_number,
+                  'order_product':order_product,
+                  'trans_id': trans_id,
+                  'order': order,
+                  'order_products': order_product,
+                  'sub_total':subtotal,
+                  'tax_added':tax_added}
+
+        return render(request, 'Orders/order_complete.html',context)
+    except(Order.DoesNotExist,Payment.DoesNotExist):
+        return redirect('store-page')

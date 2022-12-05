@@ -1,0 +1,84 @@
+{% extends 'pages/base.html' %}
+
+{% block title %} Dashboard | Order {% endblock title %}
+{% block content %}
+
+<!-- Sub banner start -->
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>Dashboard</h1>
+            <ul class="breadcrumbs">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li class="active">{{user.first_name}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Sub Banner end -->
+<!--   Dashboard Start   -->
+
+<div class="container mt-50 mb-50">
+	{% include 'includes/messages.html' %}
+	<div class="main-title" style="text-align:left !important;">
+            <h1>Welcome <span>{{user.first_name}}</span></h1>
+            <p>Here are the cars that you have inquired about</p>
+    </div>
+	<aside class="col-md-3">
+		<!--   SIDEBAR   -->
+		<ul class="list-group">
+            <ul class="list-group">
+                <a class="list-group-item {% if '/accounts/' == request.path %}active{% endif %}" href="{% url 'dashboard' %}"> Dashboard </a>
+                <a class="list-group-item {% if '/my_orders/' in request.path %}active{% endif %}" href="#"> My Orders </a>
+                {% comment %} <a class="list-group-item {% if '/order_detail/' in request.path %}active{% endif %}" href="#"> Order Detail </a> {% endcomment %}
+                {% comment %} <a class="list-group-item {% if '/edit_profile/' in request.path %}active{% endif %}" href="#"> Edit Profile </a> {% endcomment %}
+                {% comment %} <a class="list-group-item {% if '/change_password/' in request.path %}active{% endif %}" href="#"> Change Password </a> {% endcomment %}
+              </ul>
+		<br>
+		<a class="btn btn-light btn-block" href="{% url 'logout' %}"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a>
+		<!--   SIDEBAR .//END   -->
+	  </aside>
+      <main class="col-md-9">
+        <article class="card">
+        <header class="card-header">
+            <strong class="d-inline-block mr-3">Your order history</strong>
+
+        </header>
+        <div class="card-body">
+            <div class="row">
+            <div class="col-md-12">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Order #</th>
+                      <th scope="col">Billing Name</th>
+                      <th scope="col">Phone</th>
+                      <th scope="col">Order Total</th>
+                      <th scope="col">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in orders %}
+                    <tr>
+                      <th scope="row"><a href="{% url 'order_detail' order.order_number %}">{{order.order_number}}</a></th>
+                      <td>{{order.full_name}}</td>
+                      <td>{{order.phone}}</td>
+                      <td>${{order.order_total}}</td>
+                      <td>{{order.created_at}}</td>
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+            </div>
+
+            </div> <!-- row.// -->
+        </div> <!-- card-body .// -->
+
+        </article> <!-- order-group.// -->
+    </main>
+</div>
+
+<!--   Dashboard End   -->
+
+{% endblock content %}

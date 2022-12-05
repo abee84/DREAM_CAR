@@ -1,0 +1,118 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}  {% endblock title %}
+{% block content %}
+
+<!-- Sub banner start -->
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>Dashboard</h1>
+            <ul class="breadcrumbs">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li class="active">Username</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Sub Banner end -->
+<!--   Dashboard Start   -->
+
+<div class="container mt-50 mb-50">
+	{% include 'includes/messages.html' %}
+	<div class="main-title" style="text-align:left !important;">
+            <h1>Welcome <span>{{user.first_name}}</span></h1>
+            <p>Here are the cars that you have inquired about</p>
+    </div>
+	<aside class="col-md-3">
+		<!--   SIDEBAR   -->
+		<ul class="list-group">
+		  <a class="list-group-item {% if '/accounts/' == request.path %}active{% endif %}" href="{% url 'dashboard' %}"> Dashboard </a>
+		   <a class="list-group-item {% if '/my_orders/' in request.path %}active{% endif %}" href="{% url 'my_orders' %}"> My Orders </a>
+		  <a class="list-group-item {% if '/edit_profile/' in request.path %}active{% endif %}" href="#"> Edit Profile </a>
+		  <a class="list-group-item {% if '/change_password/' in request.path %}active{% endif %}" href="#"> Change Password </a> 
+		</ul>
+		<br>
+		<a class="btn btn-light btn-block" href="{% url 'logout' %}"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a>
+		<!--   SIDEBAR .//END   -->
+	  </aside>
+      <main class="col-md-9">
+		<article class="card">
+		<header class="card-header">
+			<strong class="d-inline-block mr-3">Edit your profile</strong>
+
+		</header>
+		<div class="card-body">
+            {% if messages %}
+              {% for message in messages %}
+              <div class="alert alert-{{message.tag}}">
+                {{message}}
+              </div>
+              {% endfor %}
+            {% endif %}
+			<div class="text-right">
+				<img src="{{userprofile.profile_picture.url}}" alt="Profile Picture" width="100" style="border-radius:50px;">
+			</div>
+			<div class="row">
+
+			<div class="col-md-12">
+				<form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label>First Name</label>
+							{{user.first_name}}
+						</div>
+						<div class="form-group col-md-6">
+							<label>Last Name</label>
+							{{user.last_name}}
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label>Phone Number</label>
+							{{user.phone_number}}
+						</div>
+						<div class="form-group col-md-6">
+							<label>Profile Picture</label>
+							{{profile.profile_picture}}
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Address Line 1</label>
+						{{profile.address_line_1}}
+					</div>
+					<div class="form-group">
+						<label>Address Line 2</label>
+						{{profile.address_line_2}}
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<label>City</label>
+							{{profile.city}}
+						</div>
+						<div class="form-group col-md-4">
+							<label>State</label>
+							{{profile.state}}
+						</div>
+						<div class="form-group col-md-4">
+							<label>Country</label>
+							{{profile.country}}
+						</div>
+					</div>
+					<input type="submit" value="Save" class="btn btn-primary">
+				</form>
+			</div>
+
+			</div> <!-- row.// -->
+		</div> <!-- card-body .// -->
+
+		</article> <!-- order-group.// -->
+	</main>
+	
+
+</div>
+
+<!--   Dashboard End   -->
+
+{% endblock content %}

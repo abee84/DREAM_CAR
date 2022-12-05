@@ -23,28 +23,56 @@
 	<div class="main-title" style="text-align:left !important;">
             <h1>Welcome <span>{{user.first_name}}</span></h1>
             <p>Here are the cars that you have inquired about</p>
-        </div>
-	<table class="table table-hover">
-	  <thead>
-		<tr>
-		  <th scope="col">#</th>
-		  <th scope="col">Car Name</th>
-		  <th scope="col">Location</th>
-		  <th scope="col">Price</th>
-		  <th scope="col">Action</th>
-		</tr>
-	  </thead>
-	  <tbody>
-		<tr>
-		  <th scope="row">1</th>
-		  <td>{{user.car.car_title}}</td>
-		  <td>{{user.car.city}}</td>
-		  <td>₹ {{user.car.price}}</td>
-		  <td><a href="#" class="btn btn-outline-dark">View Car</a></td>
-		</tr>
+    </div>
+	<aside class="col-md-3">
+		<!--   SIDEBAR   -->
+		<ul class="list-group">
+		  <a class="list-group-item {% if '/accounts/' == request.path %}active{% endif %}" href="{% url 'dashboard' %}"> Dashboard </a>
+		  <a class="list-group-item {% if '/my_orders/' in request.path %}active{% endif %}" href="{% url 'my_orders' %}"> My Orders </a>
+		  {% comment %} <a class="list-group-item {% if '/order_detail/' in request.path %}active{% endif %}" href="{% url 'order_detail' %}"> Order Detail </a>   {% endcomment %}
+		  {% comment %} <a class="list-group-item {% if '/change_password/' in request.path %}active{% endif %}" href="#"> Change Password </a>  {% endcomment %}
+		</ul>
+		<br>
+		<a class="btn btn-light btn-block" href="{% url 'logout' %}"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a>
+		<!--   SIDEBAR .//END   -->
+	  </aside>
+	  
+
+	  <main class="col-md-9">
+		<article class="card">
+		<header class="card-header">
+			<strong class="d-inline-block mr-3">Logged in as:</strong>
+			<span>{{user.full_name}}</span>
+		</header>
+		<div class="card-body">
+			<div class="row">
+
+			<div class="col-md-6">
+				<div class="card" style="text-align:center;">
+					<div class="card-body">
+						<h5 class="card-title">Total Orders</h5>
+						<h4>{{orders_count}}</h4>
+						<a href="#">View Orders</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card" style="text-align:center;">
+					<div class="card-body">
+						<img src="#" alt="User Profile Picture" width="50" height="50" style="border-radius:50%;">
+						<p class="mb-0">{{user.email}}</p>
+						<p>{{user.phone_number}}</p>
+					</div>
+				</div>
+			</div>
+
+			</div> <!-- row.// -->
+		</div> <!-- card-body .// -->
+
+		</article> <!-- order-group.// -->
+	</main>
 	
-	  </tbody>
-	</table>
+
 </div>
 
 <!--   Dashboard End   -->

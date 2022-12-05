@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from cars . models import Car
+from cars.views import *
 from contacts .models import Contact
 from orders.models import OrderCar, Payment
 from .forms import AddCarForm, UpdateCarForm
@@ -106,13 +107,19 @@ def change_status(request,id):
 
 def update_car(request,id):
     car=Car.objects.get(id=id)
-    form= UpdateCarForm(instance= car)
+    form= UpdateCarForm()
     if request.method == "POST":
-        form= UpdateCarForm(request.POST, request.FILES , instance= car)
+        form= UpdateCarForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            car=form.save()
+            if car is not None:
+                car.actual_price = car.price
+                # car.price = int(car.car_price-(car.car_price*car.offer.discout/100))
+                print(car.price,'price')
+                print(car.actual_price,'actual_price')
+                car.save()
             
-            return redirect('product-list')
+            return redirect('car-list')
     
     context= {'form':form}
     return render(request, 'adminapp/update_car.html',context)
@@ -121,14 +128,26 @@ def add_car(request):
     print('jfjf')
     form = AddCarForm()
     if request.method == "POST":
-        print('dxdg')
-        form= AddCarForm(request.POST, request.FILES)
+        form= AddCarForm(request.POST,request.FILES)
         if form.is_valid():
-            form.save()
+            car=form.save()
             print('vnbbvb')
-    context={'form':form}
+            if car is not None:
+                car.actual_price = car.price
+                # cars.price = int(cars.actual_price-(cars.actual_price*cars.offer.discout/100))
+                print(car.price,'price')
+                print(car.actual_price,'actual_price')
+                car.save()
 
+            return redirect('car-list')
+
+    context={"form":form}
     return render(request, 'adminapp/add_car.html', context)
+
+def delete_car(request,id):
+    car=Car.objects.get(id=id)
+    car.delete()
+    return redirect('car-list')
 
 def dash(request):
     New=0
