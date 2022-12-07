@@ -69,10 +69,6 @@ def signin(request):
 def signout(request):
     auth.logout(request)
     return redirect("admin_signin")
-    # if request.session.has_key("key"):
-    #     del request.session["key"]
-    #     request.session.modified = True
-    # return redirect("admin_signin")
 
 
 
@@ -107,16 +103,13 @@ def change_status(request,id):
 
 def update_car(request,id):
     car=Car.objects.get(id=id)
-    form= UpdateCarForm()
+    print(car)
+    form= UpdateCarForm(instance=car)
     if request.method == "POST":
-        form= UpdateCarForm(request.POST, request.FILES)
+        form= UpdateCarForm(request.POST, request.FILES, instance=car)
         if form.is_valid():
             car=form.save()
             if car is not None:
-                car.actual_price = car.price
-                # car.price = int(car.car_price-(car.car_price*car.offer.discout/100))
-                print(car.price,'price')
-                print(car.actual_price,'actual_price')
                 car.save()
             
             return redirect('car-list')
@@ -125,18 +118,12 @@ def update_car(request,id):
     return render(request, 'adminapp/update_car.html',context)
 
 def add_car(request):
-    print('jfjf')
     form = AddCarForm()
     if request.method == "POST":
         form= AddCarForm(request.POST,request.FILES)
         if form.is_valid():
             car=form.save()
-            print('vnbbvb')
-            if car is not None:
-                car.actual_price = car.price
-                # cars.price = int(cars.actual_price-(cars.actual_price*cars.offer.discout/100))
-                print(car.price,'price')
-                print(car.actual_price,'actual_price')
+            if car is not None:                                                                                                                
                 car.save()
 
             return redirect('car-list')
@@ -186,11 +173,11 @@ def dash(request):
          
     
     context={
-        'product_count':cars,
+        'car_count':cars,
         'user_count' : users,
         'sales_count' : sales,
         'revenue' : amt,
         'data':data,
         'labels':labels,
     }
-    return render(request,'adminapp/admindash.html',context)
+    return render(request,'adminapp/index.html',context)

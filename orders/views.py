@@ -42,26 +42,7 @@ def payments(request):
             ordered = True,
         )
         ordercar.save()
-        
-        # cart_item = CartItem.objects.get(id = item.id)
-        # ordercar = OrderCar.objects.get(id = ordercar.id)
-         
-        # ordercar = OrderCar.objects.create(
-        # # ordercar = item.car,
-        # order_id = order.id,
-        # payment = payment,
-        # user_id = request.user.id,
-        # id = item.car.id,
-        # quantity  = item.quantity,
-        # car_price = item.car.price,
-        # ordered = True,
-        # )
-        # ordercar.save()
-    # reduce the quantity of the sold cars
 
-        # car = Car.objects.get(id = item.car_id)
-        # car.stock -= item.quantity
-        # car.save()
     #clear cart
     CartItem.objects.filter(user=request.user).delete()
 
@@ -77,7 +58,12 @@ def payments(request):
     send_mail.send()
 
     #send order number and transaction id back to send data method via json response
+    # data ={
+    #     "order_id": order.order_number,
+    #     "payment_id": payment.payment_id,
+    # }  
 
+    # return JsonResponse(data)
 
     return render(request, 'orders/payments.html')
 

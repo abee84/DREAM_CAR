@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 def inquiry(request):
-    if request.method == 'POST':
+   if request.method == 'POST':
       car_id = request.POST['car_id']
       print(car_id)
       car_title = request.POST['car_title']

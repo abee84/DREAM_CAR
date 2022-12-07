@@ -4,7 +4,7 @@
 {% block content %}
 
 <!-- Sub banner start -->
-{% comment %} <div class="sub-banner overview-bgi">
+ <div class="sub-banner overview-bgi">
     <div class="container breadcrumb-area">
         <div class="breadcrumb-areas">
             <h1>Dashboard</h1>
@@ -14,7 +14,7 @@
             </ul>
         </div>
     </div>
-</div> {% endcomment %}
+</div> 
 <!-- Sub Banner end -->
 <section class="section-content padding-y bg">
     <div class="container">
@@ -27,7 +27,7 @@
     <table class="table table-borderless table-shopping-cart">
     <thead class="text-muted">
     <tr class="small text-uppercase">
-      <th scope="col">Product</th>
+      <th scope="col">Car</th>
       <th scope="col" >Quantity</th>
       <th scope="col" >Amount</th>
       <th scope="col" >Ordered date</th>
@@ -41,9 +41,9 @@
         
         <td>
             <figure class="itemside align-items-center">
-                <div class="aside"><img src="{{cart_item.product.product_img.url}}" class="img-sm"></div>
+                <div class="aside"><img src="{{cart_item.car.car_photo.url}}" style="width:40px; height:40px" class="img-sm"></div>
                 <figcaption class="info">
-                    <a href="{{cart_item.product.get_url}}" class="title text-dark">{{cart_item.product.product_name}}</a>
+                    <a href="{{cart_item.product.get_url}}" class="title text-dark">{{cart_item.car.car_title}}</a>
                     <p class="text-muted small">
                         {% if cart_item.variations.all %}
                           {% for item in  cart_item.variations.all %}
@@ -61,8 +61,8 @@
          </td >
         <td class="align-middle  text-sm"> 
             <div class="price-wrap">
-                <var class="price">Rs{{cart_item.product_price}}</var> 
-                <small class="text-muted"> Rs{{cart_item.product.price}} each </small> 
+                <var class="price">Rs{{cart_item.car_price}}</var> 
+                {% comment %} <small class="text-muted"> Rs{{cart_item.car.car_price}} each </small>  {% endcomment %}
             </div> <!-- price-wrap .// -->
         </td>
         <td class="align-middle  text-sm">

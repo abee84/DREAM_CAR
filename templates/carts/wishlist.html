@@ -1,9 +1,88 @@
 {% extends 'pages/base.html' %}
 
 {% block content %}
+{% load humanize %}
 
-<h1>Wishlist page</h1>
 {% include 'includes/messages.html' %}
+
+<!-- Sub banner start -->
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>Contact Us</h1>
+            <ul class="breadcrumbs">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li class="active">Contact Us</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Sub Banner end -->
+<section class="section-content padding-y">
+    <div class="container">
+    
+    <div class="row">
+        <aside class="col-md-3">
+            
+    
+    
+        </aside> <!-- col.// -->
+        <main class="col-md-9">
+    
+    <header class="border-bottom mb-4 pb-3">
+            
+    </header><!-- sect-heading -->
+    
+    <div class="row">
+
+        {% for car in wishlist %}
+        <div class="col-md-6">
+            <figure class="card card-product-grid">
+                <div class="img-wrap"> 
+                    
+                    <a href="" class="img-wrap"><img src="{{car.car.car_photo.url}}" style="width:390px; height:150px"></a>
+                    
+                </div> <!-- img-wrap.// -->
+                <figcaption class="info-wrap">
+                    <div class="fix-height">
+                        <center><a href="" class="title"><b>{{car.car.car_title}}</b></a></center>
+                        
+                        <div class="price-wrap mt-2">
+                            <center><span class="price"><b>₹{{car.car.price}}</b></span></center>
+                            
+                            
+                        </div> <!-- price-wrap.// -->
+                    </div>
+                    {% comment %} {% if product.stock <= 0 %}
+                     <h4 class="text-danger">out of stock </h4>
+                     {% else %} {% endcomment %}
+                      <a href="{% url 'car_detail' car.car_id %}" class="btn btn-block btn-primary">View Product </a>
+                      <a href="{% url 'remove_wishlist' car.car_id %}" class="btn btn-block btn-primary">Remove</a> 
+                    {% comment %} {% endif %} {% endcomment %}
+                </figcaption>
+            </figure>
+        </div> <!-- col.// -->
+
+     {% endfor %}
+    
+    </div>    
+    
+    {% comment %} <nav class="mt-4" aria-label="Page navigation sample">
+      <ul class="pagination">
+        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+      </ul>
+    </nav> {% endcomment %}
+    
+        </main> <!-- col.// -->
+    
+    </div>
+    
+    </div> <!-- container .//  -->
+    </section>
 {% endblock content %}
 
 

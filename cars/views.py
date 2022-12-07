@@ -27,13 +27,15 @@ def cars(request):
     return render(request, 'cars/cars.html', data)
 
 def car_detail(request, id):
+    print('gfg')
     single_car = get_object_or_404(Car, pk=id)
-    in_cart=CartItem.objects.filter(cart__cart_id=_cart_id(request),car=single_car).exists()
+    print(single_car)
+    # in_cart=CartItem.objects.filter(cart__cart_id=_cart_id(request),car=single_car).exists()
     # return HttpResponse(in_cart)
     # exit()
     data = {
         'single_car': single_car,
-        'in_cart': in_cart,
+        # 'in_cart': in_cart,
     }
     return render(request, 'cars/car_detail.html', data)
 

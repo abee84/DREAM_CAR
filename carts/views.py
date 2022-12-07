@@ -144,12 +144,40 @@ def view_wishlist(request):
     }
     return render(request, 'carts/wishlist.html',context)
 
+# def add_wishlist(request, id):
+#     car= Car.objects.get(id=id)
+#     print(car)
+#     if request.user.is_authenticated:
+#         wishlist = Wishlist.objects.filter(user=request.user)
+#     if Wishlist.objects.filter(car=car,user=request.user).exists():
+#        messages.success(request, 'Car is present in the Wishlist !!..')
+#     else:
+#         Wishlist.objects.create(car=car,user=request.user)
+#         messages.success(request, 'Car is added to Wishlist !!..')
+#     return redirect("wishlist")
+
 def add_wishlist(request, id):
-    car= Car.objects.get(id=id)
-    print(car)
-    if Wishlist.objects.filter(car=car,user=request.user).exists():
-       messages.success(request, 'Car is present in the Wishlist !!..')
+    current_user = request.user
+    car = Car.objects.get(id=id)
+
+    if current_user.is_authenticated:
+        is_wishlist_item_exists = Wishlist.objects.filter(car=car, user=current_user).exists()
+        if is_wishlist_item_exists:
+            wishlist_item = Wishlist.objects.get(car=car, user=current_user)
+            wishlist_item += 1
+            wishlist_item.save()
+
+        else:
+            item = Wishlist.objects.create(car=car, user=current_user)
+            item.save()
+        return redirect('wishlist')
+    
     else:
-        Wishlist.objects.create(car=car,user=request.user)
-        messages.success(request, 'Car is added to Wishlist !!..')
+       pass
+
+def remove_wishlist(request, id):
+    wishlist = Wishlist.objects.get(user=request.user, car_id=id)
+    print('fdf')
+    if wishlist:
+        wishlist.delete()
     return redirect("wishlist")

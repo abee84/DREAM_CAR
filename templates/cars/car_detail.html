@@ -133,10 +133,12 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'add_cart' single_car.id %}" role="tab" >Add to Cart</a>
                                 </li>
+                                {% if user.id is not none %}
                                 <li class="nav-item">
                                     <a class="nav-link wishlist-item"  href="{% url 'addwishlist' single_car.id %}" role="tab" >Wishlist</a>
                                     {% comment %} <button  value={{product.id}}  class="nav-link wishlist-item" >Wishlist ❤️</button> {% endcomment %}
                                 </li>
+                                {% endif %}
                             {% endif %}
                         </ul>
                         <div class="tab-content" id="carTabContent">
@@ -341,7 +343,7 @@
     </div>
 </div>
 <!-- Properties details page end -->
-{% comment %} <script>
+ <script>
     [...document.getElementsByClassName('wishlist-item')].forEach(function (e){
         e.addEventListener('click', function(){
             id = Number(this.getAttribute('value'))
@@ -367,5 +369,5 @@
             })
         })
     })
-</script> {% endcomment %}
+</script> 
 {% endblock content %}

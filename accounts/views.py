@@ -132,12 +132,12 @@ def order_detail(request, order_id):
 
 
 def cancel_order(request, id):
-    car = OrderCar.objects.get(pk=id)
+    car = OrderCar.objects.get(pk=id, user=request.user)
     car.status = "Cancelled"
     car.save()
-    item = Car.objects.get(pk=car.id)
-    item.stock += car.quantity
-    item.save()
+    # item = Car.objects.get(pk=car.car.id)
+    # item.stock += car.quantity
+    # item.save()
     return redirect("my_orders")
 
 @login_required(login_url= 'login')
